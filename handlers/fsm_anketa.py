@@ -3,6 +3,7 @@ from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters import Text
 from aiogram.dispatcher.filters.state import State, StatesGroup
 from keyboards.client_kb import gender_markup, submit_markup, cancel_markup
+from database.bot_db import sql_command_insert
 
 
 class FSMAdmin(StatesGroup):
@@ -24,7 +25,7 @@ async def fsm_start(message: types.Message):
 
 async def load_name(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
-        data['id'] = message.from_user.id
+        data['t_id'] = message.from_user.id
         data['username'] = f"@{message.from_user.username}"
         data['name'] = message.text
     await FSMAdmin.next()
@@ -75,7 +76,7 @@ async def load_photo(message: types.Message, state: FSMContext):
 
 async def submit(message: types.Message, state: FSMContext):
     if message.text.lower() == "да":
-        # Запись в БД
+        await sql_command_insert(state)
         await state.finish()
     elif message.text.lower() == "нет":
         await state.finish()
