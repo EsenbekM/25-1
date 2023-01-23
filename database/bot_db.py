@@ -15,7 +15,7 @@ def sql_create():
     if db:
         print("База данных подключена!")
 
-    db.execute("CREATE TABLE IF NOT EXISTS anketa "
+    db.execute("CREATE TABLE IF NOT EXISTS anketa "  # rows
                "(id INTEGER PRIMARY KEY AUTOINCREMENT, "
                "t_id INTEGER UNIQUE, "
                "username VARCHAR (255), "
